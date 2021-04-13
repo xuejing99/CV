@@ -1,4 +1,3 @@
-```python
 import cv2
 import numpy as np
 
@@ -19,4 +18,3 @@ if __name__ == '__main__':
     yuv_path, save_path = "640x480_1.NV21", "1.jpg"
     width, height = 640, 480
     bgr_img = NV212RGB(yuv_path, width, height, save_path)
-```

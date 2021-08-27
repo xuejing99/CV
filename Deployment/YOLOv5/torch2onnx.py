@@ -20,9 +20,10 @@ def export_onnx(model, img, save_path):
                       output_names=['output'],
                       dynamic_axes=None)
 
-def simplify(weights, output_path):
+def onnx_simplify(weights, output_path):
     onnx_model = onnx.load(weights)
-    model_simp, check = simplify(onnx_mode, output_path)
+    model_simp, check = simplify(onnx_model)
+    assert check, "Simplified ONNX model could not be validated"
     onnx.save(model_simp, output_path)
 
 if __name__ == "__main__":
@@ -30,6 +31,6 @@ if __name__ == "__main__":
     # img = torch.zeros(1, 3, *[384, 640]).to(torch.device("cuda:0"))
     img = torch.zeros(1, 3, *[384, 640]).to(torch.device("cpu"))
     export_onnx(model, img, './weights/yolov5s.onnx')
-    simplify('./weights/yolov5s.onnx', './weights/yolov5s-sim.onnx')
+    onnx_simplify('./weights/yolov5s.onnx', './weights/yolov5s-sim.onnx')
     print("well done!")
 

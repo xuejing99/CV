@@ -5,7 +5,7 @@ import torch
 
 
 # 将图片水平翻转，并返回翻转后的目标检测边界框
-def random_flip(self, img, boxes):
+def random_flip(img, boxes):
     if random.random() < 0.5:
         return img, boxes
     h, w, _ = img.shape
@@ -18,10 +18,19 @@ def random_flip(self, img, boxes):
     boxes[:, 0], boxes[:, 2] = x1_new, x2_new
 
     return img, boxes
+
+
+# 镜像，水平翻转
+def _mirror(image, boxes, prob=0.5):
+    _, width, _ = image.shape
+    if random.random() < prob:
+        image = image[:, ::-1]
+        boxes[:, 0::2] = width - boxes[:, 2::-2]
+    return image, boxes
     
     
 # 随机缩放
-def random_scale(self, img, boxes):
+def random_scale(img, boxes):
     if random.random() < 0.5:
         return img, boxes
 
@@ -36,7 +45,7 @@ def random_scale(self, img, boxes):
 
 
 # 随机模糊化
-def random_blur(self, bgr):
+def random_blur(bgr):
     if random.random() < 0.5:
         return bgr
 
@@ -46,7 +55,7 @@ def random_blur(self, bgr):
 
 
 # 随机改变亮度
-def random_brightness(self, bgr):
+def random_brightness(bgr):
     if random.random() < 0.5:
         return bgr
 
@@ -62,7 +71,7 @@ def random_brightness(self, bgr):
 
 
 # 随机改变色度
-def random_hue(self, bgr):
+def random_hue(bgr):
     if random.random() < 0.5:
         return bgr
 
@@ -78,7 +87,7 @@ def random_hue(self, bgr):
 
 
 # 随机改变饱和度
-def random_saturation(self, bgr):
+def random_saturation(bgr):
     if random.random() < 0.5:
         return bgr
 
@@ -94,7 +103,7 @@ def random_saturation(self, bgr):
     
     
   # 随机偏移
-  def random_shift(self, img, boxes, labels):
+  def random_shift(img, boxes, labels):
       if random.random() < 0.5:
           return img, boxes, labels
 
@@ -140,7 +149,7 @@ def random_saturation(self, bgr):
   
   
   # 随机剪裁
-  def random_crop(self, img, boxes, labels):
+  def random_crop(img, boxes, labels):
       if random.random() < 0.5:
           return img, boxes, labels
 
